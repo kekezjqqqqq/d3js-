@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  <svg id="svgContainer" width="600" height="400"></svg> 
+
+</body>
+
+
+</html>
+<script src="https://d3js.org/d3.v5.min.js"></script> 
+
+<script>
+// 假设节点数据为一个数组，每个节点具有x和y坐标属性
+var nodes = [
+  { x: 50, y: 50 },
+  { x: 150, y: 150 },
+  { x: 250, y: 250 }
+];
+
+// 选择SVG容器
+var svg = d3.select("#svgContainer");
+
+// 为每个节点创建圆形元素
+var circle = svg.selectAll("circle")
+  .data(nodes)
+  .enter()
+  .append("circle")
+  .attr("cx", function(d) { return d.x; })
+  .attr("cy", function(d) { return d.y; })
+  .attr("r", 20)
+  .style("fill", "blue");
+// 创建一个拖拽行为
+var drag = d3.drag()
+  .on("start", dragStart)
+  .on("drag", dragging)
+  .on("end", dragEnd);
+
+// 为每个节点应用拖拽行为
+circle.call(drag);
+
+// 拖拽行为的回调函数
+function dragStart(event, d) {
+  // 在拖拽开始时保存节点原始的坐标位置
+  console.log('dragStart',event,d)
+  d.x0 = event.x;
+  d.y0 = event.y;
+}
+
+function dragging(event, d) {
+  // 更新节点的坐标位置
+  console.log('dragging',event,d)
+
+  d.x = event.x;
+  d.y = event.y;
+  
+  // 更新节点元素的位置
+  d3.select(this)
+    .attr("cx", d.x)
+    .attr("cy", d.y);
+}
+
+function dragEnd(event, d) {
+  console.log('dragEnd',event,d)
+  // 拖拽结束后的操作，如果需要的话
+  d.x = event.x;
+  d.y = event.y;
+  d3.select(this)
+    .attr("cx", d.x)
+    .attr("cy", d.y);
+}
+
+// 
+</script>

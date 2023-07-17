@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+ <div id="pie"></div>
+</body>
+</html>
+<script src="https://d3js.org/d3.v5.min.js"></script> 
+
+<script> 
+const data = Array.from({length: 10}).map((v, i) => i * 100 + 10);
+const datasets = [
+    {name: 'cat', value: 100},
+    {name: 'dog', value: 100},
+    {name: 'pig', value: 100},
+    {name: 'cow', value: 100},
+    {name: 'bird', value: 100},
+    {name: 'fish', value: 100},
+    {name: 'snake', value: 100},
+    {name: 'mouse', value: 100},
+    {name: 'monkey', value: 100},
+    {name: 'elephant', value: 100},
+  ];
+
+console.log(data)
+const svg = d3.select('#pie')
+    .append('svg')
+    .attr('width', 600)
+    .attr('height', 600)
+    .attr('class', 'svg')
+		// 使得视图居中
+    .attr('viewBox', '-300 -300 600 600')
+
+const arcs = d3.pie()(data)
+const arc = d3.arc().outerRadius(100).innerRadius(0) 
+ 
+svg.selectAll('path')
+    .data(arcs)
+    .enter()
+    .append('path')
+    .attr('d',arc)
+    .attr('fill',(d,i)=>d3.schemePaired[i])
+
+</script>
