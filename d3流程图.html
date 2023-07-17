@@ -156,6 +156,17 @@
 
       g.setNode(el.id, {
         label: el.nodeName,
+        id: `node_${el.id}`, 
+        shape: 'rect',  //节点形状，可以设置rect(长方形),circle,ellipse(椭圆),diamond(菱形) 四种形状，还可以使用render.shapes()自定义形状
+        style: 'fill:#61b2e4;stroke:#fff',  //节点样式,可设置节点的颜色填充、节点边框
+        labelStyle: 'fill: #fff;font-weight:bold',  //节点标签样式, 可设置节点标签的文本样式（颜色、粗细、大小）
+        rx: 5,  // 设置圆角
+        ry: 5,  // 设置圆角
+        paddingBottom: 15,
+        paddingLeft: 20,
+        paddingRight: 20,
+        paddingTop: 15,
+ 
       });
     }
   }
@@ -165,7 +176,9 @@
       // 画连线
       let el = data.edges[i];
       g.setEdge(el.start, el.end, {
-        arrowhead: "vee",
+        style: 'stroke: #0fb2cc; fill: none; stroke-width: 2px',  // 连线样式
+        arrowheadStyle: 'fill: #0fb2cc;stroke: #0fb2cc;',  //箭头样式，可以设置箭头颜色
+        arrowhead: 'normal',  //箭头形状，可以设置 normal,vee,undirected 三种样式，默认为 normal
       });
     }
   }
@@ -190,6 +203,18 @@
     marginx: 10,
     marginy: 10,
   });
-  //渲染到画布上
-  render(d3.select("svg g"), g);
+    //渲染到画布上
+  render(svgGroup, g);
+  // let svgGroup = d3.select("svg g");
+  svgGroup.selectAll("rect")
+    .on("mouseover", function (v) {   
+     d3.select(`#node_${v} rect`).style('stroke', 'blue')
+    })
+    .on("mouseout", function (v) { 
+      d3.select(`#node_${v} rect`).style('stroke', '#fff')
+    })
+    .on("click", function (v) {
+      // g.setNode(v, {style: "fill:#fff;stroke:red"});
+    })
+
 </script>
